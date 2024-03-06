@@ -7,48 +7,26 @@ int main() {
   cin >> n >> k;
 
   vector<int64_t> a;
-  vector<int64_t> acc = {0};
-
-  for (auto i : views::iota(0, n)) {
-    int64_t tmp;
+  for (int i = 0; i < n; i++) {
+    int tmp;
     cin >> tmp;
     a.push_back(tmp);
   }
 
-  std::sort(a.begin(), a.end());
+  vector<int64_t> acc = {0};
 
-  for (auto& elm : a) {
-    acc.push_back(acc.back() + elm);
+  for (int i = 0; i < n; i++) {
+    acc.push_back(acc.back() + a[i]);
   }
 
-  uint64_t ans = 0;
-
-  // current_index in [0, n]
-  size_t current_index = 0;
-
-  for (auto purchase_begin : views::iota(static_cast<size_t>(0), a.size())) {
-    // purchase_begin in [0, n)
-
-    // 半開区間 [purchase_begin, purchase_until) について、条件があっているか確かめる。
-    auto cond = [&](auto purchase_until) {
-      return acc[purchase_until] - acc[purchase_begin] <= k;
-    };
-
-    while (cond(current_index) && current_index < acc.size()) {
-      current_index++;
+  int right = 1;
+  int64_t ans = 0;
+  for (int left = 0; left < n; left++) {
+    while (acc[right] - acc[left] <= k && right <= n) {
+      right++;
     }
-    // [purchase_begin, current_index - 1) について、条件があっている。
-    // つまり、
-    // [purchase_begin, purchase_begin + 1)
-    // ...
-    // [purchase_begin, current_index - 1)
-    // までの、 (current_index - 1) - (purchase_begin + 1) + 1 通りある。
 
-    cout << "(" << acc[purchase_begin] << ", " << acc[purchase_begin + 1] << ")" << endl;
-    cout << "(" << acc[purchase_begin] << ", " << acc[current_index - 1] << ")" << endl;
-    cout << current_index - purchase_begin - 1 << endl;
-
-    ans += current_index - purchase_begin - 1;
+    ans += right - left - 1;
   }
 
   cout << ans << endl;
