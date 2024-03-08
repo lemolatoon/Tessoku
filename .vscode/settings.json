@@ -4,5 +4,11 @@
 	},
 	"clang-format.executable": "/usr/bin/clang-format-14",
 	"clangd.fallbackFlags": ["-std=c++20"],
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	"github.copilot.enable": {
+		"*": false,
+		"plaintext": false,
+		"markdown": false,
+		"scminput": false
+	}
 }
